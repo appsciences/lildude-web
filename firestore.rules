@@ -10,13 +10,5 @@ service cloud.firestore {
         && request.resource.data.createdAt == request.time;
       allow read, update, delete: if false;
     }
-    match /preorders/{id} {
-      allow create: if validEmail(request.resource.data.email)
-        && request.resource.data.keys().hasOnly(['email', 'name', 'color', 'quantity', 'createdAt'])
-        && request.resource.data.quantity is int
-        && request.resource.data.quantity >= 1 && request.resource.data.quantity <= 10
-        && request.resource.data.createdAt == request.time;
-      allow read, update, delete: if false;
-    }
   }
 }

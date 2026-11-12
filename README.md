@@ -21,5 +21,6 @@ npm run deploy   # hosting + firestore + storage rules
 ```
 
 ## Forms & payments
-- Waiting list and pre-order requests are written to Firestore (`waitlist`, `preorders`); rules allow create-only.
-- Donations and pre-order payment go through PayPal (`VITE_PAYPAL_ME`, optional `VITE_PAYPAL_DONATE_URL`), so no server is needed.
+- Waiting list sign-ups are written to Firestore (`waitlist`); rules allow create-only.
+- Pre-orders use a PayPal checkout button (`VITE_PAYPAL_CHECKOUT_URL`); PayPal records the orders.
+- Donations use `VITE_PAYPAL_ME` for preset amounts and optional `VITE_PAYPAL_DONATE_URL` for any amount.

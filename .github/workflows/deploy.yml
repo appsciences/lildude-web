@@ -33,6 +33,7 @@ jobs:
           VITE_FIREBASE_APP_ID: ${{ secrets.VITE_FIREBASE_APP_ID }}
           VITE_MEDIA_BASE: ${{ vars.VITE_MEDIA_BASE }}
           VITE_PAYPAL_ME: ${{ vars.VITE_PAYPAL_ME }}
+          VITE_PAYPAL_CHECKOUT_URL: ${{ vars.VITE_PAYPAL_CHECKOUT_URL }}
           VITE_PAYPAL_DONATE_URL: ${{ vars.VITE_PAYPAL_DONATE_URL }}
 
       # Merge to main -> live site

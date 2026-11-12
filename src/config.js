@@ -18,6 +18,7 @@ export const media = {
 // button link, used for "any amount"; falls back to PAYPAL_ME.
 const trim = (u) => (u || '').replace(/\/$/, '')
 export const links = {
+  checkout: import.meta.env.VITE_PAYPAL_CHECKOUT_URL || '', // PayPal checkout button link for pre-orders
   paypalMe: trim(import.meta.env.VITE_PAYPAL_ME),
   donate: import.meta.env.VITE_PAYPAL_DONATE_URL || trim(import.meta.env.VITE_PAYPAL_ME),
 }

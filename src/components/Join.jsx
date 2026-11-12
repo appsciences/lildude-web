@@ -45,36 +45,16 @@ function Waitlist() {
 }
 
 function Preorder() {
-  const [state, send] = useForm('preorders')
-  const onSubmit = async (e) => {
-    e.preventDefault()
-    const f = new FormData(e.currentTarget)
-    const quantity = Number(f.get('quantity'))
-    const ok = await send({
-      name: f.get('name').trim(),
-      email: f.get('email').trim(),
-      color: f.get('color'),
-      quantity,
-    })
-    const pay = paypalAmountUrl(PRICE * quantity)
-    if (ok && pay) window.location.href = pay
-  }
+  const url = links.checkout
   return (
-    <form onSubmit={onSubmit} className="form">
-      <p>Reserve yours from the first batch — about <strong>${PRICE}</strong> each (placeholder price).</p>
-      <input name="name" placeholder="Your name" required maxLength={80} />
-      <input name="email" type="email" placeholder="Email" required maxLength={200} />
-      <div className="row">
-        <select name="color" defaultValue="Sunrise">
-          <option>Sunrise</option><option>Forest</option><option>Ocean</option><option>Natural wood</option>
-        </select>
-        <input name="quantity" type="number" min="1" max="10" defaultValue="1" aria-label="Quantity" />
-      </div>
-      <button className="btn btn-primary" disabled={state.status === 'loading'}>
-        {state.status === 'loading' ? 'Reserving…' : 'Pre-order'}
-      </button>
-      <Status state={state} thanks={links.paypalMe ? 'Reserved! Taking you to PayPal… 🌻' : 'Reserved! We\'ll email you payment details. 🌻'} />
-    </form>
+    <div className="form">
+      <p>Reserve yours from the first batch — <strong>${PRICE}</strong> each (placeholder price). Pick your colour and quantity at checkout.</p>
+      <a className={`btn btn-primary ${url ? '' : 'disabled'}`} href={url || undefined}
+        target="_blank" rel="noopener noreferrer">
+        {url ? 'Pre-order with PayPal' : 'Pre-orders opening soon'}
+      </a>
+      <p className="hint">Not ready yet? Hop on the waiting list instead.</p>
+    </div>
   )
 }
 
