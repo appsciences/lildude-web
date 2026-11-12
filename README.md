@@ -1,2 +1,25 @@
-# lildude-web
-Quet, portable drumset that is amazing for small venues, cafe's and shedding at home. And affordable -- let's bring drums to kids at fraction of drumset cost. Feel free to mess with the copy and make it more hippie sounding.
+# Lil Dude — portable cajon drumset site
+
+Static React (Vite) site on Firebase Hosting. Project: `lildude-web`.
+
+## Run
+```bash
+npm install
+cp .env.example .env   # fill in Firebase web config + Stripe links
+npm run dev
+```
+
+## Media (Firebase CDN)
+Upload to Storage/Hosting under `media/`: `hero.mp4`, `hero-poster.jpg`, `setup.mp4`,
+`setup-poster.jpg`, `gallery-1.jpg` … `gallery-6.jpg`. Set `VITE_MEDIA_BASE` if serving from Storage.
+Missing media falls back to animated psychedelic art. Keep the hero video short (≤15 s loop, ≤4 MB, 720p).
+
+## Deploy
+```bash
+npm i -g firebase-tools && firebase login
+npm run deploy   # hosting + firestore + storage rules
+```
+
+## Forms & payments
+- Waiting list and pre-order requests are written to Firestore (`waitlist`, `preorders`); rules allow create-only.
+- Donations and pre-order payment use Stripe Payment Links (`VITE_STRIPE_*`), so no server is needed.
