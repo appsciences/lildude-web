@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { submit } from '../firebase.js'
-import { links, PRICE } from '../config.js'
+import { links, paypalAmountUrl, PRICE } from '../config.js'
 
 function useForm(collectionName, source) {
   const [state, setState] = useState({ status: 'idle', error: '' })
@@ -49,13 +49,15 @@ function Preorder() {
   const onSubmit = async (e) => {
     e.preventDefault()
     const f = new FormData(e.currentTarget)
+    const quantity = Number(f.get('quantity'))
     const ok = await send({
       name: f.get('name').trim(),
       email: f.get('email').trim(),
       color: f.get('color'),
-      quantity: Number(f.get('quantity')),
+      quantity,
     })
-    if (ok && links.preorder) window.location.href = links.preorder
+    const pay = paypalAmountUrl(PRICE * quantity)
+    if (ok && pay) window.location.href = pay
   }
   return (
     <form onSubmit={onSubmit} className="form">
@@ -71,7 +73,7 @@ function Preorder() {
       <button className="btn btn-primary" disabled={state.status === 'loading'}>
         {state.status === 'loading' ? 'Reserving…' : 'Pre-order'}
       </button>
-      <Status state={state} thanks="Reserved! Check your inbox for next steps. 🌻" />
+      <Status state={state} thanks={links.paypalMe ? 'Reserved! Taking you to PayPal… 🌻' : 'Reserved! We\'ll email you payment details. 🌻'} />
     </form>
   )
 }
@@ -84,7 +86,7 @@ function Donate() {
       <div className="amounts">
         {amounts.map((a) => (
           <a key={a} className={`btn btn-ghost ${links.donate ? '' : 'disabled'}`}
-            href={links.donate ? `${links.donate}?prefilled_amount=${a * 100}` : undefined}
+            href={paypalAmountUrl(a) || links.donate || undefined}
             target="_blank" rel="noopener noreferrer">${a}</a>
         ))}
       </div>

@@ -13,9 +13,14 @@ export const media = {
   images: [1, 2, 3, 4, 5, 6].map((n) => `${base}/gallery-${n}.jpg`),
 }
 
+// PayPal: PAYPAL_ME is your PayPal.me link (e.g. https://paypal.me/yourname), used for
+// preset amounts and pre-order totals. DONATE_URL (optional) is a hosted PayPal Donate
+// button link, used for "any amount"; falls back to PAYPAL_ME.
+const trim = (u) => (u || '').replace(/\/$/, '')
 export const links = {
-  donate: import.meta.env.VITE_STRIPE_DONATE_URL || '',
-  preorder: import.meta.env.VITE_STRIPE_PREORDER_URL || '',
+  paypalMe: trim(import.meta.env.VITE_PAYPAL_ME),
+  donate: import.meta.env.VITE_PAYPAL_DONATE_URL || trim(import.meta.env.VITE_PAYPAL_ME),
 }
+export const paypalAmountUrl = (amount) => (links.paypalMe ? `${links.paypalMe}/${amount}USD` : '')
 
 export const PRICE = 149 // placeholder pre-order price (USD)

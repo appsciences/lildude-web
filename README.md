@@ -5,7 +5,7 @@ Static React (Vite) site on Firebase Hosting. Firebase project: `backup-2b746`.
 ## Run
 ```bash
 npm install
-cp .env.example .env   # fill in Firebase web config + Stripe links
+cp .env.example .env   # fill in Firebase web config + PayPal link
 npm run dev
 ```
 
@@ -22,4 +22,4 @@ npm run deploy   # hosting + firestore + storage rules
 
 ## Forms & payments
 - Waiting list and pre-order requests are written to Firestore (`waitlist`, `preorders`); rules allow create-only.
-- Donations and pre-order payment use Stripe Payment Links (`VITE_STRIPE_*`), so no server is needed.
+- Donations and pre-order payment go through PayPal (`VITE_PAYPAL_ME`, optional `VITE_PAYPAL_DONATE_URL`), so no server is needed.
