@@ -1,6 +1,6 @@
 # Lil Dude — portable cajon drumset site
 
-Static React (Vite) site on Firebase Hosting. Project: `lildude-web`.
+Static React (Vite) site on Firebase Hosting. Firebase project: `backup-2b746`.
 
 ## Run
 ```bash
