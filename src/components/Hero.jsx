@@ -1,5 +1,6 @@
 import { useRef, useState } from 'react'
 import { media } from '../config.js'
+import { track } from '../analytics.js'
 
 export default function Hero() {
   const ref = useRef(null)
@@ -10,6 +11,7 @@ export default function Hero() {
     if (!v) return
     v.muted = !v.muted
     setMuted(v.muted)
+    track('hero_sound_toggle', { sound: v.muted ? 'off' : 'on' })
     if (!v.muted) v.play().catch(() => {})
   }
 
@@ -44,8 +46,8 @@ export default function Hero() {
           cozy enough for the living room — and priced so every kid can find their beat.
         </p>
         <div className="cta-row">
-          <a className="btn btn-primary" href="#join">Join the waiting list</a>
-          <a className="btn btn-ghost" href="#gallery">See it in action</a>
+          <a className="btn btn-primary" href="#join" onClick={() => track('cta_click', { cta: 'hero_waitlist' })}>Join the waiting list</a>
+          <a className="btn btn-ghost" href="#gallery" onClick={() => track('cta_click', { cta: 'hero_gallery' })}>See it in action</a>
         </div>
       </div>
     </header>

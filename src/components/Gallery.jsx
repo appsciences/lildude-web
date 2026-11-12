@@ -1,12 +1,13 @@
 import { useState } from 'react'
 import { media } from '../config.js'
+import { track } from '../analytics.js'
 
 const hues = [310, 40, 160, 270, 20, 200]
 
 function Tile({ src, n, onOpen }) {
   const [failed, setFailed] = useState(false)
   return (
-    <button className="tile" onClick={() => onOpen(src)} aria-label={`Open photo ${n + 1}`}
+    <button className="tile" onClick={() => { track('gallery_image_open', { index: n + 1 }); onOpen(src) }} aria-label={`Open photo ${n + 1}`}
       style={{ '--h': hues[n % hues.length] }}>
       {failed ? <span className="tile-art" /> : (
         <img src={src} alt={`Lil Dude cajon drumset photo ${n + 1}`} loading="lazy"
@@ -28,6 +29,8 @@ export default function Gallery() {
           src={media.setupVideo}
           poster={media.setupPoster}
           controls
+          onPlay={() => track('setup_video_play')}
+          onEnded={() => track('setup_video_complete')}
           playsInline
           preload="none"
         />

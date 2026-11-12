@@ -111,3 +111,9 @@ input:focus, select:focus { outline: 3px solid var(--yellow); outline-offset: 1p
 
 @media (prefers-reduced-motion: reduce) { * { animation: none !important; scroll-behavior: auto !important; } }
 .hint { opacity: .75; font-size: .95rem; }
+.consent { position: fixed; z-index: 60; left: 1rem; right: 1rem; bottom: 1rem; max-width: 34rem; margin: 0 auto; padding: 1rem 1.25rem;
+  border-radius: 1.5rem; background: #2a1450; border: 3px solid var(--yellow); display: flex; gap: 1rem; align-items: center; flex-wrap: wrap; }
+.consent p { margin: 0; flex: 1 1 14rem; }
+.consent .btn { padding: .5rem 1rem; font-size: .95rem; margin-right: .4rem; }
+.thanks { text-align: center; min-height: 100svh; display: grid; place-content: center; gap: 1rem; }
+.thanks h1 { font-size: clamp(3rem, 10vw, 6rem); }

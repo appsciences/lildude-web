@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { submit } from '../firebase.js'
 import { links, paypalAmountUrl, PRICE } from '../config.js'
+import { track, PREORDER_ITEM } from '../analytics.js'
 
 function useForm(collectionName, source) {
   const [state, setState] = useState({ status: 'idle', error: '' })
@@ -29,7 +30,8 @@ function Waitlist() {
   const onSubmit = (e) => {
     e.preventDefault()
     const f = new FormData(e.currentTarget)
-    send({ name: f.get('name').trim(), email: f.get('email').trim() })
+    track('waitlist_submit')
+    send({ name: f.get('name').trim(), email: f.get('email').trim() }).then((ok) => ok && track('generate_lead', { source: 'waitlist' }))
   }
   return (
     <form onSubmit={onSubmit} className="form">
@@ -50,6 +52,7 @@ function Preorder() {
     <div className="form">
       <p>Reserve yours from the first batch — <strong>${PRICE}</strong> each (placeholder price). Pick your colour and quantity at checkout.</p>
       <a className={`btn btn-primary ${url ? '' : 'disabled'}`} href={url || undefined}
+        onClick={() => track('begin_checkout', { currency: 'USD', value: PRICE, items: [PREORDER_ITEM(PRICE)] })}
         target="_blank" rel="noopener noreferrer">
         {url ? 'Pre-order with PayPal' : 'Pre-orders opening soon'}
       </a>
@@ -67,11 +70,13 @@ function Donate() {
         {amounts.map((a) => (
           <a key={a} className={`btn btn-ghost ${links.donate ? '' : 'disabled'}`}
             href={paypalAmountUrl(a) || links.donate || undefined}
+            onClick={() => track('begin_donation', { currency: 'USD', value: a })}
             target="_blank" rel="noopener noreferrer">${a}</a>
         ))}
       </div>
       <a className={`btn btn-primary ${links.donate ? '' : 'disabled'}`}
-        href={links.donate || undefined} target="_blank" rel="noopener noreferrer">
+        href={links.donate || undefined}
+        onClick={() => track('begin_donation', { currency: 'USD', value: 'any' })} target="_blank" rel="noopener noreferrer">
         {links.donate ? 'Donate any amount' : 'Donations opening soon'}
       </a>
     </div>
@@ -93,7 +98,7 @@ export default function Join() {
       <div className="tabs" role="tablist">
         {tabs.map((t) => (
           <button key={t.id} role="tab" aria-selected={tab === t.id}
-            className={tab === t.id ? 'tab on' : 'tab'} onClick={() => setTab(t.id)}>{t.label}</button>
+            className={tab === t.id ? 'tab on' : 'tab'} onClick={() => { setTab(t.id); track('join_tab', { tab: t.id }) }}>{t.label}</button>
         ))}
       </div>
       <div className="panel"><Active /></div>
