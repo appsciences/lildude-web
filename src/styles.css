@@ -33,7 +33,7 @@ h1, h2, h3 { line-height: 1.1; margin: 0 0 .5em; }
   background-size: 140% 140%; animation: swirl 18s ease-in-out infinite alternate;
 }
 @keyframes swirl { from { background-position: 0% 0%; filter: hue-rotate(0); } to { background-position: 100% 100%; filter: hue-rotate(60deg); } }
-.hero-shade { background: linear-gradient(180deg, rgba(20,6,38,.55), rgba(20,6,38,.72)); }
+.hero-shade { background: linear-gradient(180deg, rgba(20,6,38,.65), rgba(20,6,38,.82)); }
 .hero-copy { position: relative; z-index: 2; max-width: 46rem; text-align: center; }
 .kicker { letter-spacing: .3em; text-transform: uppercase; color: var(--yellow); font-size: .9rem; margin: 0 0 1rem; }
 .hero h1 { font-family: 'Pacifico', cursive; font-weight: 400; font-size: clamp(4rem, 16vw, 9rem); margin: 0;
