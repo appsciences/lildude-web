@@ -7,10 +7,10 @@ export default function Consent() {
   const pick = (g) => { setConsent(g); setShown(false) }
   return (
     <div className="consent" role="dialog" aria-label="Cookie preferences">
-      <p>We use privacy-friendly analytics to see what helps folks find their beat. OK? 🍪</p>
+      <p>we use analytics to see what helps folks find their beat. ok?</p>
       <div>
-        <button className="btn btn-primary" onClick={() => pick(true)}>Sounds good</button>
-        <button className="btn btn-ghost" onClick={() => pick(false)}>No thanks</button>
+        <button className="btn btn-primary" onClick={() => pick(true)}>sounds good</button>
+        <button className="btn btn-ghost" onClick={() => pick(false)}>no thanks</button>
       </div>
     </div>
   )

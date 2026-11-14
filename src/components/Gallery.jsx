@@ -2,15 +2,14 @@ import { useState } from 'react'
 import { media } from '../config.js'
 import { track } from '../analytics.js'
 
-const hues = [310, 40, 160, 270, 20, 200]
 
 function Tile({ src, n, onOpen }) {
   const [failed, setFailed] = useState(false)
   return (
     <button className="tile" onClick={() => { track('gallery_image_open', { index: n + 1 }); onOpen(src) }} aria-label={`Open photo ${n + 1}`}
-      style={{ '--h': hues[n % hues.length] }}>
+>
       {failed ? <span className="tile-art" /> : (
-        <img src={src} alt={`Lil Dude cajon drumset photo ${n + 1}`} loading="lazy"
+        <img src={src} alt={`lildude cajon drumset photo ${n + 1}`} loading="lazy"
           onError={() => setFailed(true)} />
       )}
     </button>
@@ -21,8 +20,8 @@ export default function Gallery() {
   const [open, setOpen] = useState(null)
   return (
     <section className="section gallery" id="gallery">
-      <h2>See it <span className="script">come together</span></h2>
-      <p className="lead">From backpack to beat in under a minute.</p>
+      <h2>see it come together</h2>
+      <p className="lead">from backpack to beat in under a minute.</p>
 
       <div className="video-frame">
         <video
@@ -34,7 +33,7 @@ export default function Gallery() {
           playsInline
           preload="none"
         />
-        <div className="video-fallback">Setup video coming soon ✌️</div>
+        <div className="video-fallback">setup video coming soon</div>
       </div>
 
       <div className="tiles">

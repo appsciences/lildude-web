@@ -7,6 +7,8 @@ const base = (import.meta.env.VITE_MEDIA_BASE || '/media').replace(/\/$/, '')
 export const media = {
   heroVideo: `${base}/hero.mp4`,
   heroPoster: `${base}/hero-poster.jpg`,
+  tuningVideo: `${base}/tuning.mp4`,
+  tuningPoster: `${base}/tuning-poster.jpg`,
   setupVideo: `${base}/setup.mp4`,
   setupPoster: `${base}/setup-poster.jpg`,
   // Add real photos as /media/gallery-1.jpg ... ; art fallbacks show until they exist

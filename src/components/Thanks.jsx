@@ -17,9 +17,10 @@ export default function Thanks() {
   }, [])
   return (
     <section className="section thanks">
-      <h1 className="script">Thank you!</h1>
-      <p className="lead">{donation ? 'Your gift is putting a drum in a kid’s hands. Peace & love ☮' : 'Your Lil Dude is reserved. We’ll be in touch with next steps. ✌️'}</p>
-      <a className="btn btn-primary" href="/">Back to the groove</a>
+      <img src="/lildude-black.svg" alt="lildude" className="footer-logo" />
+      <h1 className="thanks-h">thank you</h1>
+      <p className="lead">{donation ? 'your gift is putting a drum in a kid’s hands. peace & love.' : 'your lildude is reserved. we’ll be in touch with next steps.'}</p>
+      <a className="btn btn-primary" href="/">back to the groove</a>
     </section>
   )
 }

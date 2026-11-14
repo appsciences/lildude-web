@@ -35,13 +35,13 @@ function Waitlist() {
   }
   return (
     <form onSubmit={onSubmit} className="form">
-      <p>Be first in line when the next batch of Lil Dudes is ready.</p>
+      <p>Be first in line when the next batch of lildudes is ready.</p>
       <input name="name" placeholder="Your name" required maxLength={80} />
       <input name="email" type="email" placeholder="Email" required maxLength={200} />
       <button className="btn btn-primary" disabled={state.status === 'loading'}>
         {state.status === 'loading' ? 'Sending good vibes…' : 'Put me on the list'}
       </button>
-      <Status state={state} thanks="You're on the list! Peace ✌️ We'll be in touch." />
+      <Status state={state} thanks="you're on the list! we'll be in touch." />
     </form>
   )
 }
@@ -65,7 +65,7 @@ function Donate() {
   const amounts = [10, 25, 50, 100]
   return (
     <div className="form">
-      <p>Chip in so a kid can have a Lil Dude of their own. Every drum counts.</p>
+      <p>Chip in so a kid can have a lildude of their own. Every drum counts.</p>
       <div className="amounts">
         {amounts.map((a) => (
           <a key={a} className={`btn btn-ghost ${links.donate ? '' : 'disabled'}`}
@@ -84,9 +84,9 @@ function Donate() {
 }
 
 const tabs = [
-  { id: 'waitlist', label: '🌀 Waiting list', Comp: Waitlist },
-  { id: 'preorder', label: '🥁 Pre-order', Comp: Preorder },
-  { id: 'donate', label: '💛 Donate', Comp: Donate },
+  { id: 'waitlist', label: 'waiting list', Comp: Waitlist },
+  { id: 'preorder', label: 'pre-order', Comp: Preorder },
+  { id: 'donate', label: 'donate', Comp: Donate },
 ]
 
 export default function Join() {
@@ -94,7 +94,7 @@ export default function Join() {
   const Active = tabs.find((t) => t.id === tab).Comp
   return (
     <section className="section join" id="join">
-      <h2>Join the <span className="script">circle</span></h2>
+      <h2>join the circle</h2>
       <div className="tabs" role="tablist">
         {tabs.map((t) => (
           <button key={t.id} role="tab" aria-selected={tab === t.id}

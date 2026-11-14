@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
 import Hero from './components/Hero.jsx'
 import Vibes from './components/Vibes.jsx'
+import Tuning from './components/Tuning.jsx'
 import Gallery from './components/Gallery.jsx'
 import Join from './components/Join.jsx'
 import Thanks from './components/Thanks.jsx'
@@ -43,11 +44,13 @@ export default function App() {
       <Hero />
       <main>
         <Vibes />
+        <Tuning />
         <Gallery />
         <Join />
       </main>
       <footer className="footer">
-        <p>Made with love, rhythm &amp; recycled wood ☮ © {new Date().getFullYear()} Lil Dude</p>
+        <img src="/lildude-black.svg" alt="lildude" className="footer-logo" />
+        <p>made with love, rhythm &amp; recycled wood · © {new Date().getFullYear()} lildude</p>
       </footer>
       <Consent />
     </>
