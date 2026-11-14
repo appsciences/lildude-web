@@ -1,0 +1,107 @@
+import { useState } from 'react'
+import { submit } from '../firebase.js'
+import { links, paypalAmountUrl, PRICE } from '../config.js'
+import { track, PREORDER_ITEM } from '../analytics.js'
+
+function useForm(collectionName, source) {
+  const [state, setState] = useState({ status: 'idle', error: '' })
+  const send = async (data) => {
+    setState({ status: 'loading', error: '' })
+    try {
+      await submit(collectionName, source ? { ...data, source } : data)
+      setState({ status: 'done', error: '' })
+      return true
+    } catch (e) {
+      setState({ status: 'error', error: e.message || 'Something went sideways. Try again?' })
+      return false
+    }
+  }
+  return [state, send]
+}
+
+function Status({ state, thanks }) {
+  if (state.status === 'done') return <p className="ok">{thanks}</p>
+  if (state.status === 'error') return <p className="err">{state.error}</p>
+  return null
+}
+
+function Waitlist() {
+  const [state, send] = useForm('waitlist', 'site')
+  const onSubmit = (e) => {
+    e.preventDefault()
+    const f = new FormData(e.currentTarget)
+    track('waitlist_submit')
+    send({ name: f.get('name').trim(), email: f.get('email').trim() }).then((ok) => ok && track('generate_lead', { source: 'waitlist' }))
+  }
+  return (
+    <form onSubmit={onSubmit} className="form">
+      <p>Be first in line when the next batch of lildudes is ready.</p>
+      <input name="name" placeholder="Your name" required maxLength={80} />
+      <input name="email" type="email" placeholder="Email" required maxLength={200} />
+      <button className="btn btn-primary" disabled={state.status === 'loading'}>
+        {state.status === 'loading' ? 'Sending good vibes…' : 'Put me on the list'}
+      </button>
+      <Status state={state} thanks="you're on the list! we'll be in touch." />
+    </form>
+  )
+}
+
+function Preorder() {
+  const url = links.checkout
+  return (
+    <div className="form">
+      <p>Reserve yours from the first batch — <strong>${PRICE}</strong> each (placeholder price). Pick your colour and quantity at checkout.</p>
+      <a className={`btn btn-primary ${url ? '' : 'disabled'}`} href={url || undefined}
+        onClick={() => track('begin_checkout', { currency: 'USD', value: PRICE, items: [PREORDER_ITEM(PRICE)] })}
+        target="_blank" rel="noopener noreferrer">
+        {url ? 'Pre-order with PayPal' : 'Pre-orders opening soon'}
+      </a>
+      <p className="hint">Not ready yet? Hop on the waiting list instead.</p>
+    </div>
+  )
+}
+
+function Donate() {
+  const amounts = [10, 25, 50, 100]
+  return (
+    <div className="form">
+      <p>Chip in so a kid can have a lildude of their own. Every drum counts.</p>
+      <div className="amounts">
+        {amounts.map((a) => (
+          <a key={a} className={`btn btn-ghost ${links.donate ? '' : 'disabled'}`}
+            href={paypalAmountUrl(a) || links.donate || undefined}
+            onClick={() => track('begin_donation', { currency: 'USD', value: a })}
+            target="_blank" rel="noopener noreferrer">${a}</a>
+        ))}
+      </div>
+      <a className={`btn btn-primary ${links.donate ? '' : 'disabled'}`}
+        href={links.donate || undefined}
+        onClick={() => track('begin_donation', { currency: 'USD', value: 'any' })} target="_blank" rel="noopener noreferrer">
+        {links.donate ? 'Donate any amount' : 'Donations opening soon'}
+      </a>
+    </div>
+  )
+}
+
+const tabs = [
+  { id: 'waitlist', label: 'waiting list', Comp: Waitlist },
+  { id: 'preorder', label: 'pre-order', Comp: Preorder },
+  { id: 'donate', label: 'donate', Comp: Donate },
+]
+
+export default function Join() {
+  const [tab, setTab] = useState('waitlist')
+  const Active = tabs.find((t) => t.id === tab).Comp
+  return (
+    <section className="section join" id="join">
+      <h2>join the circle</h2>
+      <div className="tabs" role="tablist">
+        {tabs.map((t) => (
+          <button key={t.id} role="tab" aria-selected={tab === t.id}
+            className={tab === t.id ? 'tab on' : 'tab'} onClick={() => { setTab(t.id); track('join_tab', { tab: t.id }) }}>{t.label}</button>
+        ))}
+      </div>
+      <div className="panel"><Active /></div>
+    </section>
+  )
+}
